@@ -1,0 +1,21 @@
+#! /bin/bash
+
+SESSION=$1
+
+if [[ $SESSION == '' ]]; then
+	echo "please provide a session name"
+	exit 1
+fi
+
+tmux new-session -s $SESSION
+tmux attach -t $SESSION
+
+CONF="/home/matt/.tmux/confs/$SESSION.conf"
+echo $CONF
+
+if [[ -f $CONF ]]; then
+	tmux source-file $CONF
+else
+	echo "file does not exist: $CONF"
+	exit 1
+fi
